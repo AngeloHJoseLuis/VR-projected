@@ -1,6 +1,6 @@
 __pycache__*
 __init__.py*
 env*
-db.sqlite3/
-.hintrc/
+db.sqlite3
+.hintrc
 manage.py
