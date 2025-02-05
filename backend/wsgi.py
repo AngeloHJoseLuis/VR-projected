@@ -10,7 +10,10 @@ https://docs.djangoproject.com/en/5.1/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application # type: ignore
+# from django.core.wsgi import virtual_reality # type: ignore
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
 application = get_wsgi_application()
+
+# application = virtual_reality.wsgi()

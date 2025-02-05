@@ -1,0 +1,22 @@
+<form id="upload-form">
+    <input type="text" id="nombre" placeholder="Nombre del modelo">
+    <input type="file" id="archivo">
+    <button type="submit">Subir Modelo</button>
+</form>
+
+<script>
+document.getElementById("upload-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+    
+    let formData = new FormData();
+    formData.append("nombre", document.getElementById("nombre").value);
+    formData.append("archivo", document.getElementById("archivo").files[0]);
+
+    fetch("http://127.0.0.1:8000/api/escenas/", {
+        method: "POST",
+        body: formData
+    }).then(response => response.json())
+        .then(data => alert("Modelo subido con éxito"))
+        .catch(error => console.error("Error:", error));
+});
+</script>
