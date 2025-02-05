@@ -1,7 +1,7 @@
 __pycache__*
 __init__.py*
 env*
-db.sqlite3*
-.hintrc*
-manage.py*
-Procfile*
+.hintrc
+Procfile
+db.sqlite3
+manage.py
