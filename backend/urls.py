@@ -17,9 +17,22 @@ Including another URLconf
 from django.contrib import admin # type: ignore
 from django.urls import path, include # type: ignore
 from . import views
+from django.urls import re_path, include
+from vr_app import consumers
+from . import consumers
+from vr_app import views
+
+websocket_urlpatterns = [
+    re_path(r'ws/some_path/$', consumers.VoiceChatConsumer.as_asgi()),
+]
+
+# websocket_urlpatterns = [
+#     re_path(r'ws/some_path/$', consumers.voice_chat.as_asgi()),
+# ]
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('vr_app.urls')),
     path('', views.home, name='home'),  # Define una vista para la raíz
+    re_path(r'ws/', include(websocket_urlpatterns)),
 ]

@@ -40,10 +40,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'channels',
     'vr_app',
+    # 'webrtc',
+    'frontend',
 ]
 
 # Configuración de WebSockets con Redis
 ASGI_APPLICATION = "backend.asgi.application"
+ASGI_APPLICATION = 'virtual_reality.asgi.application'
 
 CHANNEL_LAYERS = {
     "default": {
@@ -75,10 +78,22 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'backend.urls'
 
+# Configuración de la base de datos usando Path
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+# Configuración de las plantillas
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'vr_app' / 'templates',
+            BASE_DIR / 'frontend' / 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -92,7 +107,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
