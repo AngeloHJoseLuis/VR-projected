@@ -1,7 +1,7 @@
 __pycache__*
 __init__.py*
 env*
-.vscode*
+.vscode
 .hintrc
 Procfile
 db.sqlite3
