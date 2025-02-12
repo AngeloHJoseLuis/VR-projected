@@ -3,30 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VR con A-Frame</title>
+    <title>VR + AR con A-Frame</title> {% comment %} VR con A-Frame {% endcomment %}
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <script defer src="app.js"></script>
-    <title>VR + AR</title>
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script defer src="app.js"></script> <!-- Scripts de la aplicación -->
+    {% comment %} <title>VR + AR</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script> {% endcomment %}
     <script src="https://cdn.jsdelivr.net/npm/ar.js"></script>
 </head>
 <body>
+    <!-- Escena combinada de VR y AR -->
     <a-scene embedded arjs>
+        <!-- Realidad Aumentada (AR) -->
         <a-marker preset="hiro">
             <a-box position="0 0.5 0" material="color: red;"></a-box>
         </a-marker>
+        <!-- Cámara compartida para AR y VR -->
         <a-camera></a-camera>
     </a-scene>
     <a-scene>
+        <!-- Realidad Virtual (VR) -->
         <a-box position="0 1 -5" rotation="0 45 0" color="#4CC3D9"></a-box>
         <a-sky color="#ECECEC"></a-sky>
     </a-scene>
+
+    <!-- Chat UI -->
     <div>
         <input id="username" type="text" placeholder="Nombre">
         <input id="message" type="text" placeholder="Escribe un mensaje">
         <button onclick="sendMessage()">Enviar</button>
     </div>
     <div id="chat-box"></div>
-    <script src="chat.js"></script>    
+    <script src="chat.js"></script>  <!-- Scripts del chat -->  
 </body>
 </html>

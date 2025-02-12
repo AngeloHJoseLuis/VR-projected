@@ -1,4 +1,63 @@
 <form id="upload-form">
+    <input type="text" id="nombre" placeholder="Nombre del modelo" required>
+    <input type="file" id="archivo" accept=".glb,.gltf,.obj,.fbx" required>
+    <button type="submit">Subir Modelo</button>
+    <p id="status-message"></p> <!-- Mensaje de estado -->
+</form>
+
+<script>
+document.getElementById("upload-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const nombre = document.getElementById("nombre").value.trim();
+    const archivoInput = document.getElementById("archivo");
+    const statusMessage = document.getElementById("status-message");
+
+    // Validaciones
+    if (!nombre) {
+        statusMessage.textContent = "⚠️ El nombre del modelo es obligatorio.";
+        statusMessage.style.color = "red";
+        return;
+    }
+
+    if (!archivoInput.files.length) {
+        statusMessage.textContent = "⚠️ Debes seleccionar un archivo 3D.";
+        statusMessage.style.color = "red";
+        return;
+    }
+
+    const archivo = archivoInput.files[0];
+    const formData = new FormData();
+    formData.append("nombre", nombre);
+    formData.append("archivo", archivo);
+
+    // Mostrar mensaje de carga
+    statusMessage.textContent = "⏳ Subiendo modelo...";
+    statusMessage.style.color = "blue";
+
+    fetch("http://127.0.0.1:8000/api/escenas/", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error en la subida: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        statusMessage.textContent = "✅ Modelo subido con éxito!";
+        statusMessage.style.color = "green";
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        statusMessage.textContent = "❌ Error al subir el modelo. Inténtalo de nuevo.";
+        statusMessage.style.color = "red";
+    });
+});
+</script>
+
+<!-- <form id="upload-form">
     <input type="text" id="nombre" placeholder="Nombre del modelo">
     <input type="file" id="archivo">
     <button type="submit">Subir Modelo</button>
@@ -19,4 +78,4 @@ document.getElementById("upload-form").addEventListener("submit", function(event
         .then(data => alert("Modelo subido con éxito"))
         .catch(error => console.error("Error:", error));
 });
-</script>
+</script> -->

@@ -12,13 +12,13 @@ import os
 from django.core.asgi import get_asgi_application # type: ignore
 from channels.routing import ProtocolTypeRouter, URLRouter # type: ignore
 from channels.auth import AuthMiddlewareStack # type: ignore
-from channels.sessions import SessionMiddlewareStack # type: ignore
+# from channels.sessions import SessionMiddlewareStack # type: ignore
 from vr_app.routing import websocket_urlpatterns # type: ignore
-from vr_app.middleware import CustomAuthMiddleware # type: ignore
-from django.urls import path
-from backend import consumers
+# from vr_app.middleware import CustomAuthMiddleware # type: ignore
+# from django.urls import path
+# from backend import consumers
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'virtual_reality.settings')
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'virtual_reality.settings')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
 # application = get_asgi_application()
@@ -28,10 +28,10 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 #     "websocket": URLRouter(websocket_urlpatterns),
 # })
 
-application = ProtocolTypeRouter({
-    "http": get_asgi_application(),
-    "websocket": CustomAuthMiddleware(URLRouter(websocket_urlpatterns)),
-})
+# application = ProtocolTypeRouter({
+#     "http": get_asgi_application(),
+#     "websocket": CustomAuthMiddleware(URLRouter(websocket_urlpatterns)),
+# })
 
 # from channels.routing import ProtocolTypeRouter, URLRouter
 # from channels.auth import AuthMiddlewareStack
@@ -49,7 +49,8 @@ application = ProtocolTypeRouter({
     # Asegúrate de incluir tus rutas WebSocket aquí
     "websocket": AuthMiddlewareStack(
         URLRouter(
-            path("ws/some_path/", consumers.TuConsumidor.as_asgi()), # webrtc),
+            websocket_urlpatterns
+            # path("ws/some_path/", consumers.TuConsumidor.as_asgi()), # webrtc),
             # websocket_urlpatterns  # Importa las rutas de WebSocket aquí
             # Importa tus rutas de WebSocket aquí
             # Por ejemplo:

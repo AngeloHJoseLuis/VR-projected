@@ -16,10 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin # type: ignore
 from django.urls import path, include # type: ignore
-from . import views
+# from . import views
 from django.urls import re_path, include
 from vr_app import consumers
-from . import consumers
+# from . import consumers
 from vr_app import views
 
 websocket_urlpatterns = [

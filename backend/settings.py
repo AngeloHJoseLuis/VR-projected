@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,6 +27,12 @@ SECRET_KEY = 'django-insecure-_n$4ow-&hr#=fx**#+m1!#f%h)t_z^adcy9(x&_0x8jys_8q#1
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", 'django-insecure-_n$4ow-&hr#=fx**#+m1!#f%h)t_z^adcy9(x&_0x8jys_8q#1') #"cambia_esto_por_una_clave_segura")
+
+# DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
+
+# ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
 
 
 # Application definition
@@ -46,14 +53,14 @@ INSTALLED_APPS = [
 
 # Configuración de WebSockets con Redis
 ASGI_APPLICATION = "backend.asgi.application"
-ASGI_APPLICATION = 'virtual_reality.asgi.application'
+# ASGI_APPLICATION = 'virtual_reality.asgi.application'
 
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer",  # Para pruebas locales
         # Para producción usa Redis:
         # "BACKEND": "channels_redis.core.RedisChannelLayer",
-        # "CONFIG": {"hosts": [("127.0.0.1", 6379)]},
+        "CONFIG": {"hosts": [("127.0.0.1", 6379)]},
     },
 }
 
@@ -111,12 +118,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
