@@ -25,7 +25,7 @@ class EscenaViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """Guarda la escena y notifica a los usuarios en WebSockets."""
         escena = serializer.save()
-        notify_users(f"Nuevo modelo 3D agregado: {escena.nombre}")
+        notify_users(f"Nuevo modelo 3D agregado: {escena.nombre}") # type: ignore
 
 
 # 🔹 API para obtener modelos en AR
