@@ -1,4 +1,98 @@
 <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat de Voz en VR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #222;
+            color: white;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            background: #007bff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #status {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Conéctate al chat de voz</h1>
+    <button onclick="startCall()">Iniciar Llamada</button>
+    <p id="status">Estado: Desconectado</p>
+    <audio id="remoteAudio" autoplay></audio>
+
+    <script>
+        let peerConnection;
+        const config = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+
+        function startCall() {
+            document.getElementById("status").textContent = "🔄 Conectando...";
+            
+            navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(stream => {
+                peerConnection = new RTCPeerConnection(config);
+
+                stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+
+                peerConnection.createOffer()
+                .then(offer => {
+                    return peerConnection.setLocalDescription(offer);
+                })
+                .then(() => {
+                    sendSignal({ offer: peerConnection.localDescription });
+                })
+                .catch(error => {
+                    console.error("Error en la oferta WebRTC:", error);
+                    document.getElementById("status").textContent = "❌ Error en la conexión";
+                });
+
+                peerConnection.ontrack = event => {
+                    document.getElementById("remoteAudio").srcObject = event.streams[0];
+                };
+
+                peerConnection.onicecandidate = event => {
+                    if (event.candidate) {
+                        sendSignal({ candidate: event.candidate });
+                    }
+                };
+
+                document.getElementById("status").textContent = "✅ Conectado";
+            })
+            .catch(error => {
+                console.error("Error al acceder al micrófono:", error);
+                document.getElementById("status").textContent = "❌ Permiso denegado para el micrófono";
+            });
+        }
+
+        function sendSignal(data) {
+            fetch("/webrtc_signal/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            }).catch(error => {
+                console.error("Error enviando señal WebRTC:", error);
+            });
+        }
+    </script>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
 <html>
 
 <head>
@@ -41,4 +135,4 @@
     </script>
 </body>
 
-</html>
+</html> -->
